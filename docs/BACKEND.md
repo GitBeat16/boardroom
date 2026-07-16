@@ -69,6 +69,34 @@ Score categories enum: `market_opportunity, technology, finance, marketing, inno
 | GET | `/api/pitches/:id/deck` | Get a temporary signed download URL (valid 1 h) |
 | DELETE | `/api/pitches/:id/deck` | Remove the deck |
 
+**Live boardroom extras (run `supabase/schema_v2.sql` first)**
+
+| Method | Endpoint | What it does |
+|---|---|---|
+| GET/POST | `/api/meetings/:id/notes` | User's notepad — POST `{ content }` |
+| GET | `/api/meetings/:id/projections` | Financial projections + computed `profit` + loss `alerts` |
+| POST | `/api/meetings/:id/projections` | CFO agent upserts `{ projections: [{ year, revenue, costs, growth?, risks? }] }` |
+
+Messages now also accept optional `confidence` (0–100) and `is_interruption` (bool) — for the confidence meter and dramatic interruptions.
+
+### 🔴 Realtime — live meeting streaming (Members 1 & 4, read this!)
+
+The boardroom updates LIVE. Use the ready-made hook in `lib/hooks/useMeetingStream.ts`:
+
+```tsx
+"use client";
+import { useMeetingStream } from "@/lib/hooks/useMeetingStream";
+
+const { messages, status, latest } = useMeetingStream(meetingId);
+// messages  -> full transcript, always in order
+// latest    -> newest message: latest.agent = who's speaking NOW
+//              (spotlight + camera cut), latest.confidence = meter value,
+//              latest.is_interruption = abrupt cut
+// status    -> "pending" | "in_progress" | "completed" -> intro/meeting/verdict scenes
+```
+
+No polling, no refresh — messages appear the moment Member 2's engine writes them.
+
 Errors come back as `{ "error": "message" }` with proper status codes (401 not logged in, 400 bad input, 404 not found).
 
 ## 🔜 Not ready yet (in progress)

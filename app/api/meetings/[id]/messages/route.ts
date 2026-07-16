@@ -51,6 +51,14 @@ export async function POST(request: Request, { params }: Params) {
     if (typeof msg.content !== "string" || !msg.content.trim()) {
       return jsonError("Each message needs non-empty content", 400);
     }
+    if (
+      msg.confidence !== undefined &&
+      (typeof msg.confidence !== "number" ||
+        msg.confidence < 0 ||
+        msg.confidence > 100)
+    ) {
+      return jsonError("confidence must be a number 0-100", 400);
+    }
   }
 
   // Find the current max order_index for this meeting.
@@ -69,6 +77,8 @@ export async function POST(request: Request, { params }: Params) {
     agent: msg.agent,
     content: msg.content,
     round: typeof msg.round === "number" ? msg.round : 1,
+    confidence: typeof msg.confidence === "number" ? msg.confidence : null,
+    is_interruption: msg.is_interruption === true,
     order_index: nextIndex++,
   }));
 
