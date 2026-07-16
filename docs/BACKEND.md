@@ -61,11 +61,18 @@ Score categories enum: `market_opportunity, technology, finance, marketing, inno
 | GET/POST | `/api/meetings/:id/scores` | Get / upsert `{ scores: [{ agent, category, value }] }` |
 | GET/POST | `/api/meetings/:id/report` | Get / save the final report JSON |
 
+**Pitch deck upload**
+
+| Method | Endpoint | What it does |
+|---|---|---|
+| POST | `/api/pitches/:id/deck` | Upload deck — multipart form, field `file` (PDF/PPTX, max 10 MB) |
+| GET | `/api/pitches/:id/deck` | Get a temporary signed download URL (valid 1 h) |
+| DELETE | `/api/pitches/:id/deck` | Remove the deck |
+
 Errors come back as `{ "error": "message" }` with proper status codes (401 not logged in, 400 bad input, 404 not found).
 
 ## 🔜 Not ready yet (in progress)
 
-- Pitch deck upload endpoint
 - Vercel deployment
 
 ## How to use it (Members 1 & 2)
