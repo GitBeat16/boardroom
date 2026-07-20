@@ -127,7 +127,8 @@ await supabase.from("board_meetings").update({
   status: "completed",
   completed_at: new Date().toISOString(),
   decision: decisionMap[analysis.decision.verdict],
-  overall_score: Object.values(analysis.scores).reduce((s: number, x: any) => s + Number(x.score), 0) * 2,
+  overall_score:
+    (Object.values(analysis.scores) as Array<{ score: number }>).reduce((s, x) => s + x.score, 0) * 2,
 }).eq("id", meeting.id);
 
 console.log("✅ 5/5 Everything saved.");
