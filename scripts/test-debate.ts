@@ -15,7 +15,11 @@ import { createClient } from "@supabase/supabase-js";
 try {
   for (const line of readFileSync(".env.local", "utf8").split("\n")) {
     const m = line.match(/^\s*([A-Z0-9_]+)\s*=\s*(.*)\s*$/);
-    if (m && !process.env[m[1]]) process.env[m[1]] = m[2].replace(/^["']|["']$/g, "");
+    const key = m?.[1];
+    const val = m?.[2];
+    if (key && val !== undefined && !process.env[key]) {
+      process.env[key] = val.replace(/^["']|["']$/g, "");
+    }
   }
 } catch {
   console.error("❌ Could not read .env.local — run this from the repo root.");
