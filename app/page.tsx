@@ -1,13 +1,36 @@
-export default function Home() {
+import type { Metadata } from "next";
+import { MarketingNavbar } from "@/components/layout/marketing-navbar";
+import { Footer } from "@/components/layout/footer";
+import { Hero } from "@/features/landing/components/hero";
+import { HowItWorks } from "@/features/landing/components/how-it-works";
+import { ExecutivesShowcase } from "@/features/landing/components/executives-showcase";
+import { FeaturesGrid } from "@/features/landing/components/features-grid";
+import { Testimonials } from "@/features/landing/components/testimonials";
+import { Pricing } from "@/features/landing/components/pricing";
+import { Faq } from "@/features/landing/components/faq";
+import { CtaBanner } from "@/features/landing/components/cta-banner";
+
+export const metadata: Metadata = {
+  title: "BoardroomAI — Pitch to a virtual board of AI executives",
+  description:
+    "Eight AI executives debate your startup live, then hand you the investment decision, financials, and roadmap a real board takes weeks to produce.",
+};
+
+export default function LandingPage() {
   return (
-    <main className="flex min-h-screen flex-col items-center justify-center gap-4">
-      <h1 className="text-4xl font-bold">BoardroomAI</h1>
-      <p className="text-lg text-gray-500">
-        Pitch your startup to an AI executive board.
-      </p>
-      <p className="text-sm text-gray-400">
-        Backend scaffold ready — Member 1 replaces this with the landing page.
-      </p>
-    </main>
+    <div className="flex min-h-screen flex-col">
+      <MarketingNavbar />
+      <main className="flex-1">
+        <Hero />
+        <HowItWorks />
+        <ExecutivesShowcase />
+        <FeaturesGrid />
+        <Testimonials />
+        <Pricing />
+        <Faq />
+        <CtaBanner />
+      </main>
+      <Footer />
+    </div>
   );
 }
